@@ -1,0 +1,25 @@
+<h1>Listing posts</h1>
+<%= link_to 'New Post', new_post_path %>
+ 
+<table>
+  <tr>
+    <th>Long URL</th>
+    <th>Short URL</th>
+    <th>Open</th>
+    <th>Del</th>
+    <th>Goto</th>
+  </tr>
+ 
+  <% @posts.each do |post| 
+      shorturl = "#{post.shorturl}"
+    %>
+    <tr>
+      <td><%= post.longurl.byteslice(0,20) %></td>
+
+      <td><%= shorturl %></td>
+      <td><%= link_to '+' , post %></td>
+      <td><%= link_to '-' , post_path(post), method: :delete %></td>
+      <td><%= link_to('>>>' ,:action => 'open', :id => shorturl ) %></td>
+    </tr>
+  <% end %>
+</table>

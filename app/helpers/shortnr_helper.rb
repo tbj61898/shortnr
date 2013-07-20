@@ -1,0 +1,2 @@
+module ShortnrHelper
+end
