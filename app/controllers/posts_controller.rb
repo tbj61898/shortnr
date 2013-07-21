@@ -18,16 +18,22 @@ class PostsController < ApplicationController
 
 	def create
 		@post = Post.new(post_params)
+		
 		if !(@post.longurl.start_with?("http://") | @post.longurl.start_with?("https://")) 
 			@post.longurl = "http://#{@post.longurl}"
 		end
-		if @post.save
-			@post.shorturl=shortit(@post.id)
-			@post.save
-			redirect_to @post
-		else
+		if uri?(@post.longurl) 
+			if @post.save
+				@post.shorturl=shortit(@post.id)
+				@post.save
+				redirect_to @post
+			else
+				render 'edit'
+			end
+		else 
 			render 'edit'
 		end
+
 	end
 
 	def show
@@ -99,5 +105,12 @@ class PostsController < ApplicationController
 			@post = Post.find(aId.to_i)
 			return @post
 		end
-
+		def uri?(string)
+			uri = URI.parse(string)
+			%w( http https ).include?(uri.scheme)
+		rescue URI::BadURIError
+			false
+		rescue URI::InvalidURIError
+			false
+		end
 end
