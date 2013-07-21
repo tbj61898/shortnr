@@ -1,16 +1,16 @@
+<%= stylesheet_link_tag "theme" %>
 <p>
   <strong>Title:</strong>
   <%= @post.longurl %>
 </p>
- 
 <p>
-  <strong>Description:</strong>
-  <%= @post.description %>
-</p>
 
-<p>
-  <strong>Short Url:</strong>
-  <%= @post.shorturl %>
+  <% if @post.shorturl.length > 4 %>
+ <p>
+ 	<strong>Short Url:</strong>
+  <input type=text value="http://sve.li/<%= @post.shorturl %>" onclick="this.select()"/><span class="hint"> - Click the box to select!</span>
+   </p>
+ <% end %>
 </p>
 
 <%= link_to 'Back', posts_path %>

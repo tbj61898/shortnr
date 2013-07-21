@@ -1,4 +1,5 @@
-<%= form_for @post do |f| %>
+<div class="newform">
+  <%= form_for @post do |f| %>
   <% if @post.errors.any? %>
   <div id="errorExplanation">
     <h2><%= pluralize(@post.errors.count, "error") %> prohibited
@@ -11,16 +12,11 @@
   </div>
   <% end %>
   <p>
-    <%= f.label :longurl %><br>
-    <%= f.text_field :longurl %>
+    <%= f.label :longurl %>: <%= f.text_field  :longurl, placeholder: "http://Very.long.URL", :size =>80 %>
   </p>
- 
+
   <p>
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </p>
- 
-  <p>
-    <%= f.submit %>
+    <%= f.submit "Shorten URL" %>
   </p>
 <% end %>
+</div>

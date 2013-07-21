@@ -1,0 +1,3 @@
+    function selectText(containerid) {
+        
+    }

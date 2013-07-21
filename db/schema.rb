@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130720105713) do
+ActiveRecord::Schema.define(version: 20130721163313) do
 
   create_table "posts", force: true do |t|
     t.string   "longurl"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20130720105713) do
     t.string   "shorturl"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "visited",     default: 0.0
   end
 
 end

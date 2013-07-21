@@ -1,25 +1,52 @@
-<h1>Listing posts</h1>
-<%= link_to 'New Post', new_post_path %>
- 
+<%= javascript_include_tag "application" %>
+<%= stylesheet_link_tag "theme" %>
+<h1>Shorten a new URL</h1>
+<%= render 'form' %>
+<div>
+<div class="panel">
+<h1>Recent URL history</h1>
 <table>
   <tr>
+    <th>ID</th>
     <th>Long URL</th>
     <th>Short URL</th>
-    <th>Open</th>
-    <th>Del</th>
-    <th>Goto</th>
+    <th class="smaller">times<br>visited</th>
   </tr>
- 
   <% @posts.each do |post| 
       shorturl = "#{post.shorturl}"
     %>
+    <% if shorturl.length > 4 %>
     <tr>
-      <td><%= post.longurl.byteslice(0,20) %></td>
-
-      <td><%= shorturl %></td>
-      <td><%= link_to '+' , post %></td>
-      <td><%= link_to '-' , post_path(post), method: :delete %></td>
-      <td><%= link_to('>>>' ,:action => 'open', :id => shorturl ) %></td>
+      <td class="id"><%= post.id %></td>
+      <td><input type=text value="<%= post.longurl %>" /></td>
+      <td><input type=text value="http://sve.li/<%= shorturl %>" onclick="this.select()"/></td>
+      <td class="visited"><%= Integer(post.visited) %></td>
     </tr>
+    <% end %>
   <% end %>
 </table>
+</div>
+<div class="panel">
+  <h1>Most Visited URL history</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Long URL</th>
+    <th>Short URL</th>
+    <th class="smaller">times<br>visited</th>
+  </tr>
+  <% @opposts.each do |post| 
+      shorturl = "#{post.shorturl}"
+    %>
+    <% if shorturl.length > 4 %>
+    <tr>
+      <td class="id"><%= post.id %></td>
+      <td><input type=text value="<%= post.longurl %>" /></td>
+      <td><input type=text value="http://sve.li/<%= shorturl %>" onclick="this.select()"/></td>
+      <td class="visited"><%= Integer(post.visited) %></td>
+    </tr>
+    <% end %>
+  <% end %>
+</table>
+</div>
+</div>

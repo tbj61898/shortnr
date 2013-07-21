@@ -1,6 +1,7 @@
 require 'digest/sha1'
 
 class PostsController < ApplicationController
+	layout "application"
 	def initialize
 		@key1 = "S6hMI1vC5xREHYzUaZPotJgQi84ONXpc2GVFKkWb3syDLlrwej97dmTnBAufq0"
 		@key2 = "oVCW97TA5S8fIN1LcBYwMUat0ZgRyx3ilkJE4musOpHzjnqhrFK6XDebPQGd2v"
@@ -17,6 +18,9 @@ class PostsController < ApplicationController
 
 	def create
 		@post = Post.new(post_params)
+		if !(@post.longurl.start_with?("http://") | @post.longurl.start_with?("https://")) 
+			@post.longurl = "http://#{@post.longurl}"
+		end
 		if @post.save
 			@post.shorturl=shortit(@post.id)
 			@post.save
@@ -32,12 +36,15 @@ class PostsController < ApplicationController
 	
 	def open
   		@post = longit(params[:id])
-  		logger.info "Redirect to #{@post.longurl}"
+  		@post.visited = @post.visited + 1
+  		@post.save
   		redirect_to @post.longurl
 	end
 
 	def index
-  		@posts = Post.all
+		@post = Post.new
+  		@posts = Post.all(:order => "created_at DESC", :limit => 15)
+  		@opposts = Post.all(:order => "visited DESC", :limit => 15)
 	end
 
 	def destroy
